@@ -1,6 +1,6 @@
 # Recovery and segmentation of polarimetric images #
 
-Related published works
+Related published works; please cite if you use the code.
 ```
 @article{sfikas2011polar,
   title={Recovery of polarimetric Stokes images by spatial mixture models},
