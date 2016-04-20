@@ -2,8 +2,6 @@
 
 Related published works
 ```
-#!bibtex
-
 @article{sfikas2011polar,
   title={Recovery of polarimetric Stokes images by spatial mixture models},
   author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, Nikos},
@@ -13,10 +11,6 @@ Related published works
   pages={465--474},
   year={2011}
 }
-```
-
-```
-#!bibtex
 
 @inproceedings{sfikas2009polar,
   title={Joint recovery and segmentation of polarimetric images using a compound mrf and mixture modeling},
