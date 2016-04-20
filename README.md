@@ -13,6 +13,10 @@ Related published works
   pages={465--474},
   year={2011}
 }
+```
+
+```
+#!bibtex
 
 @inproceedings{sfikas2009polar,
   title={Joint recovery and segmentation of polarimetric images using a compound mrf and mixture modeling},
@@ -21,5 +25,4 @@ Related published works
   pages={3901--3904},
   year={2009}
 }
-
 ```
