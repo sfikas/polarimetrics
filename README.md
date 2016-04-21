@@ -1,9 +1,7 @@
 # Recovery and segmentation of polarimetric images #
 
-Related published works
+Related published works; please cite if you use the code.
 ```
-#!bibtex
-
 @article{sfikas2011polar,
   title={Recovery of polarimetric Stokes images by spatial mixture models},
   author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, Nikos},
@@ -21,5 +19,4 @@ Related published works
   pages={3901--3904},
   year={2009}
 }
-
 ```
