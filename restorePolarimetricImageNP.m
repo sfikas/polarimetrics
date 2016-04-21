@@ -1,36 +1,47 @@
 function [f V z X] = restorePolarimetricImageNP(IN, H, cheat, K, cheatInit)
 % f = restorePolarimetricImageNP(IN)
 %
-% Restore the distorted and noise-corrupted IN, to the original
-% stokes 4-channel image.
-% Input argument 1 and output is a X x Y x 4 matrix.
+% Restore the distorted and noise-corrupted IN, to the original stokes 4-channel image.
+% Input argument 1 (IN) and output (f) is a X x Y x 4 matrix.
 % Second input is the distortion matrix (the H in Hf + n)
+% "cheat" is the ground-truth correct image; this is used to calculate the estimated error.
+% "cheatInit" is an optional user-provided initial estimate of the restored image.
+% For the rest of the parameters, see the papers.
 %
 % Notes:
-%      -NP stands for "no parametrization". This refers to the gaussian mix
+%      -NP on the title stands for "no parametrization". This refers to the gaussian mix
 %       being imposed directly on the stokes vectors (f) as opposed to the
 %       "restorePolarimetricImage" routine.
 %      -The prior used is the Student-t continuous line process similar to
 %       the one described in [1].
 %
-% Update:
-%       17 Feb 2009: Will print ISNR values
-%       5 Mardi 2009: Will actually use the pseudoinverse.
-%                   Input needs not be 4-channel (but the output
-%                   will be so)
-% G.Sfikas 9 Jul 2008
+% @article{sfikas2011polar,
+%  title={Recovery of polarimetric Stokes images by spatial mixture models},
+%  author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, Nikos},
+%  journal={JOSA A},
+%  volume={28},
+%  number={3},
+%  pages={465--474},
+%  year={2011}
+%}
 %
-% JULY 2010 UPDATE: Todo CLEANUP & put in sfikasLibrary
+% @inproceedings{sfikas2009polar,
+% title={Joint recovery and segmentation of polarimetric images using a compound mrf and mixture modeling},
+%  author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, N},
+%  booktitle={IEEE International Conference on Image Processing (ICIP)},
+%  pages={3901--3904},
+%  year={2009}
+%}
 %
-% SEP26 2010 UPDATE: Must CLEANUP
+% G.Sfikas 21 Apr 2016
 flagGridScan = 0;
-%%Compute quelques quantit? necessaires
+%%Compute quelques quantites necessaires
 if(exist('K', 'var') == 0)
     K = 7;
 end
 D = 4;
 NhoodSize = 4;
-NhoodDirections = 2; %WARNING:Unreliable constant
+NhoodDirections = 2; %WARNING:Unreliable constant (do not change this)
 % Initialization
 imageSize = size(IN);
 if imageSize(3) >= 4

@@ -1,41 +1,34 @@
 function [f V z X initialEstimate] = restorePolarimetricImage(IN, H, cheat, K, cheatInit)
 % f = restorePolarimetricImage(IN)
 %
+% Restore the distorted and noise-corrupted IN to the original stokes 4-channel image.
 % Modele a la parametrization "lambda", ou modele "Juillet"
 %
-% Restore the distorted and noise-corrupted IN, to the original stokes 4-channel image.
-% Input argument 1 and output is a X x Y x 4 matrix.
+% Input argument 1 (IN) and output (f) is a X x Y x 4 matrix.
 % Second input is the distortion matrix (the H in Hf + n)
+% "cheat" is the ground-truth correct image; this is used to calculate the estimated error.
+% "cheatInit" is an optional user-provided initial estimate of the restored image.
+% For the rest of the parameters, see the papers.
 %
-% Notes
-%   Cette version est plutot differente que cette qu'a ete programme en
-%   Janvier.
-%   Les differences majeurs sont:
-%   -Le modele Bayesien maintenant est plus pareil au modele
-%   introdui a l'article envoye a CVPR, c'est-a-dire les differences entre
-%   les cont.mixing proportions sont modelises comme Student-t.
-%   -Le parametrisation des quelques variables aleatoires importantes est
-%   bien different. (vois code..)
-%   
-%   Notez aussi que le variable 'X' qui se trouve dans ce code-ci aparrait
-%   comme 'l' dans mes notes et dans l'article correspondant futur.
+% @article{sfikas2011polar,
+%  title={Recovery of polarimetric Stokes images by spatial mixture models},
+%  author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, Nikos},
+%  journal={JOSA A},
+%  volume={28},
+%  number={3},
+%  pages={465--474},
+%  year={2011}
+%}
 %
-% Update Mardi 19 Mai 09:
-%       Allagi ston metasximatismo opws ton zitaei o Christian.
-%       Diladi:
-%           prosthetw enan oro 1/2 ston yparxon metasxhmatismo
-%           kanw permutation tis metavlites s2 <- s3 <- s4 
+% @inproceedings{sfikas2009polar,
+% title={Joint recovery and segmentation of polarimetric images using a compound mrf and mixture modeling},
+%  author={Sfikas, Giorgos and Heinrich, Christian and Zallat, Jihad and Nikou, Christophoros and Galatsanos, N},
+%  booktitle={IEEE International Conference on Image Processing (ICIP)},
+%  pages={3901--3904},
+%  year={2009}
+%}
 %
-% Update Samedi 14 Fev 09: Will return also the initial estimate
-%                           (typically the pseudo-inverse)
-%        Mardi 17 Fev 09: Will print ISNR values.
-%        Mardi 4 Mar 09: Will actually use the pseudoinverse.. so
-%                           now it works for non-invertible H.
-% G.Sfikas 6 Juin 2008
-%
-% JULY 2010 UPDATE: Todo CLEANUP & put in sfikasLibrary
-%
-% SEP26 2010 UPDATE: Must CLEANUP
+% G.Sfikas 21 Apr 2016
 
 flagGridScan = 0;
 %%Compute quelques quantites necessaires
