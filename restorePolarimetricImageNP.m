@@ -156,43 +156,6 @@ for iterations = 1:7
         end
         clear newCovar;
     end
-    % Amelioration of means & covariances
-    % ===================================
-    % On the previous step we had hypothesized that the gaussian
-    % assumed on the stokes vectors has a normalization constant like
-    % sqrt(2*pi)*abs(st.dev); but this is mistaken since the stokes
-    % obey a certain constraint on their values. In other words the true
-    % stokes distribution is a truncated Gaussian.
-%     for j = 1:K
-% %%         currentRandomData = chol(covar(:,:,j))' * randomData + m(:, j) * ones(1, size(randomData, 2));
-% %%         constr1 = currentRandomData(1, :);
-% %%         constr2 = currentRandomData(1, :).^2 - currentRandomData(2, :).^2 - currentRandomData(3, :).^2 - currentRandomData(4, :).^2;
-% %%         fprintf('%f ', sum(constr1 >= 0 & constr2 >= 0) / size(randomData, 2));
-% %%         realZ = (sum(constr1 >= 0 & constr2 >= 0) / size(randomData, 2)) * (2*pi*det(covar(:,:,j)))^(-0.5);
-%         %
-%         L = chol(covar(:,:,j))';
-%         x = fminsearch(@(x) objectiveAmel(x, X, z(:, j), randomData), [m(:, j)' L(1:4, 1)' L(2:4, 2)' L(3:4, 3)' L(4:4, 4)'], ...
-%             optimset('Display', 'off'));
-%         newL = zeros(4, 4);
-%         newM = x(1:4);
-%         newL(1:4, 1) = x((1:4) + 4);
-%         newL(2:4, 2) = x((5:7) + 4);
-%         newL(3:4, 3) = x((8:9) + 4);
-%         newL(4:4, 4) = x((10) + 4);
-%         if sum(diag(newL) <= 0) > 0
-%             fprintf('restorePolarimetricImageNP: Hooke-Jeeves/Monte Carlo step: covariance computed as non-positive definite (reject)\n');
-%             continue;
-%         end        
-%         newCovar = newL * newL';
-%         if rcond(newCovar) > 1e3 * eps && det(newCovar) > 1e-20
-%             tt = abs(m(:, j)' - newM);
-%              fprintf('restorePolarimetricImageNP: HJ/MC step: new mean offset for MEAN: %f\n', sum(tt(:)) / numel(newM));
-%             tt = abs(covar(:, :, j) - newCovar);
-%              fprintf('restorePolarimetricImageNP: HJ/MC step: new mean offset for COV: %f\n', sum(tt(:)) / numel(newCovar));            
-%             m(:, j) = newM;            
-%             covar(:, :, j) = newCovar;
-%         end        
-%     end
     % Compute q*(U) %%
     % Some convenient statistics, regarding w. 
     %Neighbour square differences: wDiff2
